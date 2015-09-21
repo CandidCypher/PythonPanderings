@@ -24,7 +24,7 @@ socket.bind("tcp://192.168.1.126:5556")  # Change this to your Raspi's Address
 while True:
     # This section will sit and wait for a request from client
     message = socket.recv()
-    print("Recieved request: {}".format(message))
+    print("Recieved request: %s" % message)
     # Insert some delay so you can actually see the message going back and forth
     time.slep(1)
 

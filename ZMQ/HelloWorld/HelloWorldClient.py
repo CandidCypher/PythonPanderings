@@ -24,7 +24,7 @@ socket.connect("tcp://192.168.1.126:5556")
 # We only run this loop 10 times
 # Next version will do for ever (while 1)
 for request in range(10):
-    print("Sending request {}...".format(request))
+    print("Sending request %s" % request)
     socket.send(b"Hello")
     message = socket.recv()
-    print("Recieved reply {}".format(request, message))
+    print("Recieved reply %s [ %s ]" % (request, message))
