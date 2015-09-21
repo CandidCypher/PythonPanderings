@@ -13,6 +13,8 @@ server with "World"
 """
 
 import zmq  # Isnt' that awesome?! You only need one thing.
+import time
+
 
 context = zmq.Context()
 
@@ -20,11 +22,12 @@ context = zmq.Context()
 print("Connecting to Hello World Server.....")
 socket = context.socket(zmq.REQ)
 socket.connect("tcp://192.168.1.126:5556")
-
+time.sleep(2)
 # We only run this loop 10 times
 # Next version will do for ever (while 1)
 for request in range(10):
     print("Sending request %s" % request)
     socket.send(b"Hello")
+    print("Message has been sent")
     message = socket.recv()
     print("Recieved reply %s [ %s ]" % (request, message))

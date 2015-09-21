@@ -20,7 +20,7 @@ import time
 context = zmq.Context()
 socket = context.socket(zmq.PUB)
 socket.bind("tcp://192.168.1.126:5556")  # Change this to your Raspi's Address
-
+time.sleep(1)
 while True:
     # This section will sit and wait for a request from client
     message = socket.recv()
