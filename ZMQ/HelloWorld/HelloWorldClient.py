@@ -22,9 +22,8 @@ context = zmq.Context()
 print("Connecting to Hello World Server.....")
 socket = context.socket(zmq.REQ)
 socket.connect("tcp://192.168.1.126:5556")
-time.sleep(2)
 # We only run this loop 10 times
-# Next version will do for ever (while 1)
+# Next version will do for ever (while )
 for request in range(10):
     print("Sending request %s" % request)
     socket.send(b"Hello")

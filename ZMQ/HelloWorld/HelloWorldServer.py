@@ -18,15 +18,14 @@ import time
 
 
 context = zmq.Context()
-socket = context.socket(zmq.REQ)
+socket = context.socket(zmq.REP)
 socket.bind("tcp://192.168.1.126:5556")  # Change this to your Raspi's Address
-time.sleep(1)
 while True:
     # This section will sit and wait for a request from client
     message = socket.recv()
     print("Recieved request: %s" % message)
     # Insert some delay so you can actually see the message going back and forth
-    time.slep(1)
+    time.sleep(1)
 
     # Sending of the response
     socket.send(b"World")
