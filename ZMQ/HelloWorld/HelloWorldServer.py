@@ -28,4 +28,4 @@ while True:
     time.sleep(1)
 
     # Sending of the response
-    socket.send(b"World")
+    socket.send(b"World)
