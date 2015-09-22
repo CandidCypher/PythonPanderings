@@ -11,7 +11,6 @@ This is the client reader for the Arduino Data Streamer
 """
 
 import zmq
-import time
 import zlib
 import cPickle
 
@@ -21,8 +20,7 @@ print("Connecting to remote Arduino....")
 socket = context.socket(zmq.REQ)
 socket.connect("tcp://10.0.1.24:5556")
 
-for request in range(10):
-    print("Sending request {}".format(request))
+while 1:
     socket.send(b"Data Please")
     print("Data has been requested")
     message = socket.recv()
