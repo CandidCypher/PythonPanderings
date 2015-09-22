@@ -19,6 +19,9 @@ print("Connecting to remote Arduino....")
 socket = context.socket(zmq.REQ)
 socket.connect("tcp://192.168.1.126:5556")
 
-for request in range (10):
+for request in range(10):
     print("Sending request {}".format(request))
-
+    socket.send(b"Data Please")
+    print("Data has been requested")
+    message = socket.recv()
+    print("Collected Data {}".format(message))
