@@ -18,7 +18,7 @@ import serial
 Arduino = serial.Serial('/dev/ttyACM0', 9600)
 context = zmq.Context()
 socket = context.socket(zmq.REP)
-socket.bind("tcp://192.168.1.126:556")
+socket.bind("tcp://10.0.1.24:5556")
 
 while True:
     message = socket.recv()
@@ -27,4 +27,4 @@ while True:
     IMU_read = Arduino.readline()
     format_input = str(IMU_read, 'ascii').split(",")
     AcX = format_input[0]
-    socket.send_string(b"AcX {}".format(AcX))
+    socket.send_string(b"AcX: %i" % AcX)
