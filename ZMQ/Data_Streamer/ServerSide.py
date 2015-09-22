@@ -14,6 +14,7 @@ to a "server" of some form.
 import zmq
 import time
 import serial
+import zlib, cPickle
 
 Arduino = serial.Serial('/dev/ttyACM0', 9600)
 context = zmq.Context()
@@ -25,6 +26,6 @@ while True:
     print("Recieved Request")
     time.sleep(1)
     IMU_read = Arduino.readline()
-    format_input = str(IMU_read, 'ascii').split(",")
-    AcX = format_input[0]
-    socket.send_string("%i" % (AcX))
+    packed_pickle = cPickle.dumps(IMU_read)
+    bundle = zlib.compress(packed_pickle)
+    socket.send(bundle)

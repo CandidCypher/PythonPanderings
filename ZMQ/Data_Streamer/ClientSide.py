@@ -12,6 +12,8 @@ This is the client reader for the Arduino Data Streamer
 
 import zmq
 import time
+import zlib
+import cPickle
 
 context = zmq.Context()
 
@@ -24,4 +26,6 @@ for request in range(10):
     socket.send(b"Data Please")
     print("Data has been requested")
     message = socket.recv()
-    print("Collected Data {}".format(message))
+    unpacked_pickle = zlib.decompress(message)
+    data = cPickle.loads(unpacked_pickle)
+    print(data)
