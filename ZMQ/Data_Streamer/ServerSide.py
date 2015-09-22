@@ -27,4 +27,4 @@ while True:
     IMU_read = Arduino.readline()
     format_input = str(IMU_read, 'ascii').split(",")
     AcX = format_input[0]
-    socket.send(b"AcX: %i" % AcX)
+    socket.send_string("%i" % (AcX))
