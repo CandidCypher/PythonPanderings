@@ -7,25 +7,22 @@
 # Distributed under terms of the MIT license.
 
 """
-This is the client reader for the Arduino Data Streamer
+This is the client side of the basic image streamer.
 """
 
 import zmq
 import zlib
 import cPickle
 import time
-
+import numpy
 
 context = zmq.Context()
-
-print("Connecting to remote Arduino....")
 socket = context.socket(zmq.REQ)
-socket.connect("tcp://192.168.1.106:5556")
+socket.connect("tcp://192.168.1.106:5555")
 
-while 1:
-    socket.send(b"Data Please")
+while True:
+    socket.send("I'm ready for stream")
     start = time.time()
-    print("Data has been requested")
     message = socket.recv()
     unpacked_pickle = zlib.decompress(message)
     data = cPickle.loads(unpacked_pickle)
