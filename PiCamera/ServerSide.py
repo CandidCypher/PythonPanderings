@@ -31,7 +31,7 @@ while True:
     print("Recieved Request")
     IMU_read = Arduino.readlin()
     camera.capture(stream, format='jpeg')
-    data = numpy.fromstring(stream.getValue(), dtype=numpy.uint8)
+    data = numpy.fromstring(stream.getvalue(), dtype=numpy.uint8)
     packed_pickle = cPickle.dumps(data)
     bundle = zlib.compress(packed_pickle)
     socket.send(bundle)

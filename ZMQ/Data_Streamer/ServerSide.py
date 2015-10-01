@@ -26,5 +26,5 @@ while True:
     print("Recieved Request")
     IMU_read = Arduino.readline()
     packed_pickle = cPickle.dumps(IMU_read)
-    bundle = zlib.compress(packed_pickle)
-    socket.send(bundle)
+    # TODO: Find alternative method to convert Array to byte string
+    socket.send_multipart('IMU', #someformat)

@@ -11,21 +11,15 @@ This is the client side of the basic image streamer.
 """
 
 import zmq
-import zlib
-import cPickle
 import time
-import numpy
 
 context = zmq.Context()
-socket = context.socket(zmq.REQ)
+socket = context.socket(zmq.SUB)
 socket.connect("tcp://192.168.1.106:5555")
 
 while True:
-    socket.send("I'm ready for stream")
     start = time.time()
     message = socket.recv()
-    unpacked_pickle = zlib.decompress(message)
-    data = cPickle.loads(unpacked_pickle)
     end = time.time()
     print(data)
     total_time = end - start
