@@ -13,16 +13,16 @@ This is a test of the PiRGBArray method to determine type.
 import zmq
 import picamera
 import picamera.array
-import cStringIO
+from io
 
-stream = cStringIO.StringIO()
+stream = io.BytesIO()
 camera = picamera.PiCamera()
 context = zmq.Context()
-socket = context.socket(zmq.PUB)
+socket = context.socket(zmq.REQ)
 socket.bind("tcp://192.168.1.106:5555")
 
 while True:
     message = socket.recv()
     print("Recieved Request")
-    camera.capture(stream, format='jpeg')
-    socket.send_multipart(["PI_CAM", stream.getvalue()]
+    camera.capture(stream, format='jpeg', use_video_port=True)
+    socket.send_multipart(["PI_CAM", stream.getvalue()])
