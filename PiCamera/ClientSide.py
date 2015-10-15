@@ -16,12 +16,11 @@ from PIL import Image
 from io import StringIO
 
 context = zmq.Context()
-socket = context.socket(zmq.REQ)
+socket = context.socket(zmq.SUB)
 socket.connect("tcp://192.168.1.123:5555")
 
 while True:
     start = time.time()
-    send_message = socket.send(b"Stream Please")
     message = socket.recv_multipart()
     f = StringIO(message[1])
     converted_image = Image.open(f).convert('RGB')
