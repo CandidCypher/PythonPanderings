@@ -13,25 +13,16 @@ This is a test of the PiRGBArray method to determine type.
 import zmq
 import picamera
 import picamera.array
-import numpy
-import io
-import serial
-import zlib
-import cPickle
+import cStringIO
 
-stream = io.BytesIO()
+stream = cStringIO.StringIO()
 camera = picamera.PiCamera()
-Arduino = serial.Serial('/dev/ttyACM0', 9600)
 context = zmq.Context()
-socket = context.socket(zmq.REP)
+socket = context.socket(zmq.PUB)
 socket.bind("tcp://192.168.1.106:5555")
 
 while True:
     message = socket.recv()
     print("Recieved Request")
-    IMU_read = Arduino.readlin()
     camera.capture(stream, format='jpeg')
-    data = numpy.fromstring(stream.getvalue(), dtype=numpy.uint8)
-    packed_pickle = cPickle.dumps(data)
-    bundle = zlib.compress(packed_pickle)
-    socket.send(bundle)
+    socket.send_multipart(["PI_CAM", stream.getvalue()]
