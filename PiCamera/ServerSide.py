@@ -2,33 +2,30 @@
 # -*- coding: utf-8 -*-
 # vim:fenc=utf-8
 #
-# Copyright © 2015 CoroWare Robotics Solutions <www.coroware.com>
+# Copyright © 2015 cameron <cameron@Megatron-Virtual>
 #
 # Distributed under terms of the MIT license.
 
 """
-This is a test of the PiRGBArray method to determine type.
+This is a script that runs on the Raspberry Pi Capturing frames to a stream
 """
 
-import zmq
-import picamera
-import picamera.array
 import io
-from PIL import Image
+import picamera
+import zmq
 
-stream = io.BytesIO()
-camera = picamera.PiCamera()
+# ZMQ Settings
 context = zmq.Context()
-socket = context.socket(zmq.REQ)
-socket.bind("tcp://192.168.1.123:5555")
+socket = context.socket(zmq.PUB)
+socket.bind("10.1.10.218:5555")
+
+# Establishing Stream
+cam_stream = io.BytesIO()
+
+# Camera Configuration
+camera = picamera.PiCamera()
 
 while True:
-    message = socket.recv()
-    print("Recieved Request")
-    camera.capture(stream, format='jpeg', use_video_port=True)
-    stream.seek(0)
-    image = Image.open(stream)
-    f = io.StringIO()
-    Image.fromarray(image).save(f, 'JPEG')
-    socket.send_multipart(["PI_CAM", f.getvalue()])
-    f.close()
+    camera.capture(cam_stream, format='jpeg', use_video_port=True)
+    cam_stream.seek(0)
+    socket.send_multipart(["CAM_FEED", cam_stream.getvalue()])
