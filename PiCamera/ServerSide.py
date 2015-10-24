@@ -22,11 +22,10 @@ socket.setsockopt_unicode()
 
 # Establishing Stream
 cam_stream = io.BytesIO()
-
 # Camera Configuration
 camera = picamera.PiCamera()
 
 while True:
     camera.capture(cam_stream, format='jpeg', use_video_port=True)
     cam_stream.seek(0)
-    socket.send_unicode(cam_stream.getvalue())
+    socket.send_multipart([b"CAM_FEED", cam_stream.getvalue()])
