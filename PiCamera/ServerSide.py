@@ -29,4 +29,4 @@ camera = picamera.PiCamera()
 while True:
     camera.capture(cam_stream, format='jpeg', use_video_port=True)
     cam_stream.seek(0)
-    socket.send_multipart(["CAM_FEED", cam_stream.getvalue()])
+    socket.send_unicode(cam_stream.getvalue())
