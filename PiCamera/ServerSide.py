@@ -18,6 +18,7 @@ import zmq
 context = zmq.Context()
 socket = context.socket(zmq.PUB)
 socket.bind("10.1.10.218:5555")
+socket.setsockopt_unicode()
 
 # Establishing Stream
 cam_stream = io.BytesIO()
